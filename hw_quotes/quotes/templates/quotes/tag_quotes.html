@@ -1,0 +1,35 @@
+{% extends 'quotes/base.html' %} {% block content %}
+<div class="row">
+  <div class="col-md-8">
+    <h1>Quotes with Tag: {{ tag }}</h1>
+
+    {% for quote in quotes %}
+    <div class="quote" itemscope="" itemtype="http://schema.org/CreativeWork">
+      <span class="text" itemprop="text"> {{ quote.quote }} </span>
+      <div class="tags">
+        Tags: {% for tag in quote.tags.all %}
+        <a class="tag" href="/tag/{{ tag.name }}">{{ tag.name }}</a>
+        {% endfor %}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+<nav>
+  <ul class="pager">
+    <li class="previous">
+      <a class="{% if not quotes.has_previous %}disabled{% endif %}" href="/">
+        <span aria-hidden="true">←</span> Back
+      </a>
+    </li>
+  </ul>
+</nav>
+{% endblock %} {% block left_sidebar %}
+<h3>Top 10 Tags</h3>
+<ul>
+  {% for tag in top_tags %}
+  <li><a href="{% url 'quotes:tag_quotes' tag.name %}">{{ tag.name }}</a></li>
+  {% endfor %}
+</ul>
+{% endblock %}
